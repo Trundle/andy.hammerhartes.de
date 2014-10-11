@@ -1,0 +1,15 @@
+{% set active_page="blog" %}
+{% extends "base.html" %}
+{% block title %}{{ article.title|striptags }} - {{ SITENAME }}{% endblock %}
+{% block page_title %}
+    <h1>
+        <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark"
+           title="Permalink to{{ article.title|striptags }}">{{ article.title }}</a>
+    </h1>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-2">{% include "article_sidebar.html" %}</div>
+        <div class="col-md-10 article-content">{{ article.content }}</div>
+    </div>
+{% endblock %}

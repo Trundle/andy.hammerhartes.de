@@ -1,0 +1,11 @@
+<p class="text-right text-muted" title="Creation date">{{ article.locale_date }}</p>
+{% if article.tags %}
+    <div class="text-right text-primary">
+        <span class="glyphicon glyphicon-tags"></span>
+        <ul class="list-unstyled text-right">
+            {% for tag in article.tags %}
+                <li><a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

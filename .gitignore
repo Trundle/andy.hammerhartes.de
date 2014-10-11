@@ -1,0 +1,8 @@
+*.py[co]
+
+cache/
+output/
+
+# IntelliJ Idea
+*.iml
+.idea/

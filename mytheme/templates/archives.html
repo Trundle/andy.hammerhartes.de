@@ -1,0 +1,26 @@
+{% set active_page = "archives" %}
+{% extends "base.html" %}
+{% block page_title %}
+    <h1>Archives for <a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>{% endblock %}
+{% block content %}
+    <dl>
+        {% for group in dates|groupby('date.year')|reverse %}
+            <div class="row vspace-top">
+                <div class="col-xs-2 col-md-2 text-right text-muted">{{ group.grouper }}</div>
+                <div class="col-xs-8 col-md-10"></div>
+            </div>
+            {% for article in group.list %}
+                <div class="row">
+                    <div class="col-md-2 col-xs-2">
+                        <dt class="text-right">
+                            <div class="">{{ article.date.strftime('%b %d') }}</div>
+                        </dt>
+                    </div>
+                    <div class="col-md-10 col-xs-8">
+                        <dd><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></dd>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </dl>
+{% endblock %}

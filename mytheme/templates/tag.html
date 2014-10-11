@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block title %}{{ SITENAME }} - Tag {{ tag }}{% endblock %}
+{% block page_title %}
+    <h1>{{ SITENAME }}
+        <small class="valign-middle lineheight-100"><span class="text-primary">
+            <span class="text-muted">&#10230;</span>
+            <span class="glyphicon glyphicon-tag"></span>
+            {{ tag }}
+            </span></small>
+    </h1>
+{% endblock %}
