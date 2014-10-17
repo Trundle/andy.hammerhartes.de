@@ -32,8 +32,8 @@ About this website
 This website is generated from `reStructuredText`_ using
 `Pelican`_. The theme is a custom theme made by me. The reason it
 looks great anyway is because `other people
-<http://getbootstrap.com/>`_ did most of the hard work. Source can be
-found on Github (soon).
+<http://getbootstrap.com/>`_ did most of the hard work. `Source can be
+found on Github <https://github.com/Trundle/andy.hammerhartes.de>`_.
 
 .. _reStructuredText: http://docutils.sourceforge.net/rst.html
 .. _Pelican: http://getpelican.com/
