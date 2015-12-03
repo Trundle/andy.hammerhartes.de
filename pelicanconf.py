@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Andy'
 SITENAME = u'Superficial Reflections'
-SITEURL = 'http://andy.hammerhartes.de'
+SITEURL = 'https://andy.hammerhartes.de'
 #SITEURL = ''
 
 TIMEZONE = 'Europe/Paris'
