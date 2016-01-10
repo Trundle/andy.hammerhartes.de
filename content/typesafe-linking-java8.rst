@@ -138,7 +138,7 @@ Erweitern wir zunächst unseren Controller um einen personalisierten Gruß:
 .. code:: java
 
    @GET
-   @Path("/{name})
+   @Path("/{name}")
    public String greeting(String name) {
        return "Hello, " + name + "!";
    }
