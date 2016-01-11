@@ -8,33 +8,38 @@ Typsicheres verlinken mit Java 8
 
 
 Im heutigen Blog-Post geht es um Webrahmenwerke. Genauer: es geht darum, wie man
-Links zu Controllern erzeugt, auf typsichere Art und Weise. Typsicher in dem
-Sinne, dass man Variablen im Routing nur durch Werte von dem Typ ersetzen kann,
-den der Controller auch erwartet. Übergibt man die falsche Anzahl an Werten oder
-Werte vom falschen Typ, soll der Code erst gar nicht kompilieren (in anderen
-Worten: keine Exceptions zur Laufzeit). Wir beschränken uns auf Pfad-Variablen.
+auf typsichere Art und Weise Links zu Controllern erzeugt. Typsicher in dem
+Sinne, dass man Variablen im Routing nur durch Werte des selben Typs ersetzen
+kann, den der Controller auch tatsächlich erwartet. Übergibt man die falsche
+Anzahl an Werten oder Werte des falschen Typs, soll der Code erst gar nicht
+kompilieren – in anderen Worten: Es sollen nicht erst Exceptions zur Laufzeit
+geworfen werden, sondern bereits beim kompilieren. Für das Beispiel beschränken
+wir uns auf Pfad-Variablen.
 
-Die Code-Beispiele für die Controller sind lose an `JAX-RS
+Die Code-Beispiele für die Controller sind dabei lose an `JAX-RS
 <https://en.wikipedia.org/wiki/Java_API_for_RESTful_Web_Services>`_ orientiert.
-Die folgenden Konventionen werden benutzt:
+Es werden die folgenden Konventionen benutzt:
 
 * Methoden, die Requests behandeln, haben lediglich die Pfad-Variablen als
-  Parameter, in der Reihenfolge, in der sie im Routing-Template definiert sind
+  Parameter. Die Reihenfolge der Parameter ist dabei die Reihenfolge, in der sie
+  im Routing-Template definiert sind.
 
 .. note::
 
-   In dem Blog-Beitrag wird nur die Methode vorgestellt, mit der man Links
+   In diesem Blog-Beitrag wird nur die Methode vorgestellt, mit der man Links
    erstellen kann. Ein Router, der Requests auf Controller dispatcht, wird nicht
    vorgestellt.
 
    Außerdem wird eine gewisse Vertrautheit mit Java 8 (insbesondere Lambdas)
-   vorausgesetzt sowie auch ein wenig mit JAX-RS.
+   vorausgesetzt sowie auch ein wenig mit JAX-RS. Für eine Intro zu Lambdas
+   siehe etwa den `Lambda Quick Start
+   <http://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html>`_
 
 
 Prior Art
 =========
 
-Da *Links erzeugen* ein Recht häufig Problem ist, gibt es natürlich so einiges
+Da *Links erzeugen* ein Recht häufiges Problem ist, gibt es natürlich so einiges
 an Prior Art. Wahrscheinlich in so ziemlich jedem Webrahmenwerk, in den
 unterschiedlichsten Ausprägungen. Ich habe stellvertretend einmal drei
 herausgegriffen:
@@ -42,10 +47,11 @@ herausgegriffen:
 * `Pyramids route_url
   <http://pyramid.readthedocs.org/en/latest/api/request.html#pyramid.request.Request.route_url>`_
 
-  Zeigt schon mal die grobe Idee. Gewisse Fehler werden abgefangen (falsche
-  Anzahl an Argumenten zum Beispiel). Allerdings passiert alles zur Laufzeit.
-  Man braucht also eine recht gut ausgeprägte Test-Suite, um Fehler beim Linken
-  zu erkennen.
+  Zeigt schon mal die grobe Idee, wenn auch in Python und nicht in Java. Gewisse
+  Fehler werden abgefangen (falsche Anzahl an Argumenten zum Beispiel).
+  Allerdings passiert alles zur Laufzeit. Man braucht also eine recht gut
+  ausgeprägte Test-Suite, um Fehler beim Linken zu erkennen.
+
 * `Declarative Hyperlinking in Jersey <https://jersey.java.net/documentation/latest/declarative-linking.html>`_
 
   Mit Annotationen umgesetzt und dadurch stringly typed. Fehler werden erst zur
@@ -63,7 +69,7 @@ herausgegriffen:
 
   Allerdings funktioniert die Methoden-Auflösung zur Laufzeit und via Name als
   String. Die Parametertypen müssen explizit angegeben werden und die
-  Typüberprüfung passiert auch erst zur Laufzeit.
+  Typüberprüfung passiert ebenfalls erst zur Laufzeit.
 
 
 Warum nicht Methodenreferenzen?
@@ -144,7 +150,7 @@ Erweitern wir zunächst unseren Controller um einen personalisierten Gruß:
    }
 
 Der Parameter ``name`` repräsentiert hierbei die Pfad-Variable ``name``.
-Pfad-Variablen Links dazu wollen wir dann folgenderweise erstellen:
+Links dazu können dann folgenderweise erstellt werden:
 
 .. code:: java
 
@@ -172,7 +178,7 @@ Desweiteren muss eine weitere Überladung von ``linkTo`` eingeführt werden:
 
 Das ist zum Implementieren zwar ein wenig wortreich (für jede Anzahl an
 Pfad-Variablen ein eigenes Interface und eine entsprechende ``linkTo``-Methode),
-aber das muss man ja nur einmal tun und außerdem hat man ja auch nicht unendlich
+aber das muss man zum Glück nur einmal tun und außerdem hat man ja auch nicht unendlich
 lange Pfade in der Praxis.
 
 Viel gravierender ist jedoch: es funktioniert überhaupt nicht. Man kann zwar aus
