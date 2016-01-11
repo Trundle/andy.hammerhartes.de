@@ -4,7 +4,6 @@ Typsicheres verlinken mit Java 8
 
 :date: 2016-01-10 22:01:20
 :tags: programming, java, web
-:status: draft
 
 
 Im heutigen Blog-Post geht es um Webrahmenwerke. Genauer: es geht darum, wie man
