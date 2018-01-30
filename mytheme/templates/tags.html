@@ -8,7 +8,7 @@
         <div class="col-md-2"></div>
         <div class="col-md-10">
             <ul class="tagcloud">
-                {%- for tag in tag_cloud %}
+                {%- for tag in tags|sort %}
                     <li class="tag-{{ tag.1 }}"><a
                             href="{{ SITEURL }}/{{ tag.0.url }}">{{ tag.0 }}</a></li>
                 {% endfor %}
