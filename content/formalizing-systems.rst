@@ -2,18 +2,17 @@
 Finding bugs in systems through formalization
 =============================================
 
-:date: 2018-02-10 21:48
+:date: 2018-02-18 20:34
 :tags: en, tlaplus, pluscal
-:status: draft
 
 
 Introduction
 ============
 
-Welcome to the first post in English! Today’s post is about how creating a
-formal specification for (parts of) a system can help finding real-world bugs.
-What initially triggered this post was that I watched `Hillel Wayne's Strange
-Loop talk "Tackling Concurrency Bugs with TLAplus"
+Welcome to a first post in English! Today’s post is about how creating a formal
+specification for (parts of) a system can help find real-world bugs. What
+initially triggered this post was that I watched `Hillel Wayne's Strange Loop
+talk "Tackling Concurrency Bugs with TLAplus"
 <https://www.youtube.com/watch?v=_9B__0S21y8>`_. Having dealt with a concurrency
 bug at work the week before, I thought it would be the perfect opportunity to
 learn some TLA+ and to verify the existence of the bug with TLA+. That turned
@@ -24,13 +23,12 @@ we are!
 Overview of the problem at hand
 ===============================
 
-The system that this post about is a system that processes some kind of jobs.
-Processing one job consists of multiple different steps, possibly being done in
-parallel. Each processing steps publishes status updates. A supervisor, called
-*processing handler*, supervises the processing. Once the processing of all
-mandatory steps has finished, some additional action is triggered, for example
-updating some metric or inform other parts of the system about the completed
-processing.
+The system in question is a system that processes various kinds of jobs.
+Processing one job involves executing different jobs, possibly in parallel. Each
+processing step publishes status updates. A supervisor, called *processing
+handler*, supervises the processing. Once the processing of all mandatory steps
+has finished, some additional action is triggered, for example updating some
+metric or informing other parts of the system about the completed processing.
 
 While not all mandatory steps are completed, the job is said to be in a
 *pending* state. Once all the mandatory steps are complete, the job is in the
@@ -75,7 +73,7 @@ While not all mandatory steps are completed, the job is said to be in a
    @enduml
 
 
-The issue is now that sometimes, the switch from processing to completed cannot
+The issue is now that sometimes, the switch from pending to completed cannot
 be observed from within the progress handler.
 
 
@@ -142,9 +140,9 @@ The queue
 ---------
 
 The queue we want to model is a FIFO. Like every queue, it supports two
-operations: put for adding an element and take to pop an element from the queue.
-To keep the specification as simple as possible, we simply begin the model
-checking with all status messages that we want to have processed already
+operations: *put* for adding an element and *take* to pop an element from the
+queue. To keep the specification as simple as possible, we simply begin the
+model checking with all status messages that we want to have processed already
 enqueued. That leaves us with only needing to model the take operation.
 
 .. code::
@@ -302,15 +300,14 @@ Cassandra will merge the sets of all nodes into one resulting set.
 The final progress handler
 --------------------------
 
-With having modelled the queue and Cassandra, that leaves the final missing
-part: the progress handler itself. As mentioned before, it executes the
-following steps:
+Having modelled the queue and Cassandra, there is one final missing part: the
+progress handler itself. As mentioned before, it executes the following steps:
 
 * Wait for a status queue message. That also increases the number of
   unacknowledged queue messages.
 * Load the job from the database
 * Append the new status and write it to the database
-* Load the job again and check if its overall status switched from *processing*
+* Load the job again and check if its overall status switched from *pending*
   to *completed*
 * Acknowledge the queue message (mark it as processed).
 
@@ -407,7 +404,7 @@ The bug
 =======
 
 The fact that the model execution completes without any error creates a dilemma:
-the switch from *processing* to *completed* is always observed, but the starting
+the switch from *pending* to *completed* is always observed, but the starting
 point of this post was that sometimes the switch isn’t observed. So either the
 specification doesn’t model one of the involved components such as Cassandra
 correctly or the implementation of progress handler doesn’t follow the
@@ -435,7 +432,7 @@ statements are created as following:
 
    return session.prepare(insert.toString());
 
-Rather subtle, but for creating the prepared statement, the string
+The bug is rather subtle, but for creating the prepared statement, the string
 representation of the created ``Statement`` object is used. Unfortunately, the
 string representation doesn’t include the ``Statement``’s consistency level
 property! Changing the code to:
@@ -447,24 +444,24 @@ property! Changing the code to:
        // Omitted: binding expressions for the values here …
 
    return session
-          .prepare(insert.toString());
-          .setConsistencyLevel(consistencyLevel);
+       .prepare(insert.toString());
+       .setConsistencyLevel(consistencyLevel);
 
-makes the model execute without any error.
+fixes the bug.
 
 
 Proving more properties
 =======================
 
 Having a formal model for the system makes it also possible to check some more
-properties for it. For example, one might be interested in how many documents
-are processed, say for accounting purposes. The obvious place to add it is in
-the progress handler, when the switch from *processing* to *completed* was
-observed. If the switch is observed, increase a counter, done. We verified that
-the switch is guaranteed to be observed (if the document is processed), hence it
-should work fine. There is a caveat though: So far we only checked whether the
-switch was observed - what we didn't verify was that it is guaranteed that the
-switch is only observed once and not twice or more.
+properties of it. For example, one might be interested in how many documents are
+processed, say for accounting purposes. The obvious place to add it is in the
+progress handler, when the switch from *pending* to *completed* was observed. If
+the switch is observed, increase a counter, done. We verified that the switch is
+guaranteed to be observed (if the document is processed), hence it should work
+fine. There is a caveat though: So far we only checked whether the switch was
+observed - what we didn't verify was that it is guaranteed that the switch is
+only observed once and not twice or more.
 
 .. code::
 
@@ -479,6 +476,10 @@ single document.
 Closing words
 =============
 
-I hope that I could demonstrate that TLA+ is a useful tool worth adding to your
-toolbox. One of its downsides, that it doesn't verify real code, is also one of
-its upsides: one can verify designs before even writing any code. Give it a try!
+I hope that I was able to demonstrate that TLA+ is a useful tool worth adding to
+your toolbox. One of its downsides, that it doesn't verify real code, is also
+one of its upsides: one can verify designs before even writing any code. Give it
+a try!
+
+Thanks to Florian Mayer for reviewing a draft of this post. All mistakes are, of
+course, my own.
