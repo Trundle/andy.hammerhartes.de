@@ -31,7 +31,7 @@ DEFAULT_PAGINATION = 10
 
 # Plugins
 PLUGIN_PATHS = ["plugins"]
-PLUGINS = ["blockquote_fixer"]
+PLUGINS = ["blockquote_fixer", "tag_cloud"]
 
 # XXX TODO
 SITEMAP = {
