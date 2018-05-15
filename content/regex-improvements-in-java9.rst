@@ -2,9 +2,8 @@
 Regex improvements in OpenJDK 9: Less exponential backtracking
 ==============================================================
 
-:date: 2018-05-13 13:00
+:date: 2018-05-15 23:15
 :tags: en, java, openjdk
-:status: draft
 
 I'm trying to keep the current blog post run going (at least compared to the
 last years) by blogging about random things I observe or learn. Today's post: I
@@ -26,7 +25,8 @@ next, which then succeeds.
 
 Now let's see what happens if the input ``1111a`` is matched against the pattern
 ``(1*)*`` in OpenJDK 8, like in the following code:
-``Pattern.compile("(1*)*").matcher("1111a").matches()``).
+``Pattern.compile("(1*)*").matcher("1111a").matches()``). In words: in a group,
+match zero or more *1*\ s and repeat that group zero or more times.
 
 In the beginning, the ``1*`` inside the group matches greedily all characters
 *1* in the input until the *a*. Then the remaining input (the *a*) is used as
@@ -76,10 +76,23 @@ Then, when the repetition is executed again during backtracking, it's checked
 whether it already failed to match for this cursor position and if so, the
 repetition isn't tested at all (as it will fail no match).
 
+How does that help against exponential backtracking? Let's have a look again at
+the previous regex ``(\d*)`` that should match the input ``1111a``. First the
+greedy match of the *1*\ s, then the failed attempt to match *a* and then the
+backtracking of the first greedy match. The first backtracking attempt is with
+the remaining input ``1a``. It doesn't match and it's memoized that this input
+failed. Then ``11a`` is tried next. It also fails to match, but it also
+backtracks itself due to the first greedy match on the leading ``11``. During
+that backtracking, the inputs ``1a`` and ``11a`` need to be tested, but only the
+former is actually tested, due to the latter being memoized to have failed.
+Hence the backtracking is now linear instead of exponential.
+
 Note that this optimization only works if the pattern doesn't use any
 backreferences.
 
-More questions? Then study `the source <http://hg.openjdk.java.net/jdk9/client/jdk/file/65464a307408/src/java.base/share/classes/java/util/regex/Pattern.java>`_ of OpenJDK's ``Pattern`` implementation!
+More questions? Then study `the source
+<http://hg.openjdk.java.net/jdk9/client/jdk/file/65464a307408/src/java.base/share/classes/java/util/regex/Pattern.java>`_
+of OpenJDK's ``Pattern`` implementation!
 
 
 .. _Regular Expression Matching Can be Simple And Fast: https://swtch.com/%7Ersc/regexp/regexp1.html
