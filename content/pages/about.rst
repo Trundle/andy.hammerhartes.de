@@ -7,12 +7,10 @@ Me
 .. image:: |filename|/images/me.jpg
    :class: vspace-bottom
 	   
-I'm a software developer living in Munich, working for `Gini`_.
+I'm a software developer living in Munich.
 	   
 On this site I will almost exclusively ramble about
 programming-related topics, mostly in German.
-
-.. _Gini: http://gini.net/
 
 
 Me elsewhere
