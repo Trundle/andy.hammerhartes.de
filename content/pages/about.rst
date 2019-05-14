@@ -16,7 +16,6 @@ programming-related topics, mostly in German.
 Me elsewhere
 ------------
 
-* `G+ <http://gplus.to/trundle>`_
 * `bitbucket <http://bitbucket.org/Trundle>`_
 * `Github <http://github.com/Trundle>`_
 * `Launchpad <https://launchpad.net/~trundle>`_
