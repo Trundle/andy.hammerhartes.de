@@ -1,0 +1,5 @@
+The raleway-* files are
+  Copyright (c) 2010, Matt McInerney (matt@pixelspread.com), Copyright (c) 2011, Pablo Impallari (www.impallari.com|impallari@gmail.com), Copyright (c) 2011, Rodrigo Fuenzalida (www.rfuenzalida.com|hello@rfuenzalida.com), with Reserved Font Name Raleway
+and licensed under the SIL Open Font License, Version 1.1: http://scripts.sil.org/OFL
+
+droidsans.woff2 is released under the Apache License Version 2.0 https://www.apache.org/licenses/LICENSE-2.0.html
