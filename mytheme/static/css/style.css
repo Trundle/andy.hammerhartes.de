@@ -2,6 +2,19 @@ html {
     overflow-y: scroll;
 }
 
+.filter-animation {
+    transition-property: filter;
+    transition-duration: 1s;
+}
+
+.force-dark-theme {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+.force-dark-theme img:not([src$='.svg']) {
+    filter: invert(1) hue-rotate(180deg);
+}
+
 body {
     padding-top: 20px;
     padding-bottom: 20px;

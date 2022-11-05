@@ -12,6 +12,7 @@
     <link href="{{ SITEURL }}/theme/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ SITEURL }}/theme/css/style.css" rel="stylesheet">
     <link href="{{ SITEURL }}/theme/css/pygments.css" rel="stylesheet">
+    <script src="{{ SITEURL }}/theme/js/dark-mode-switcher.js"></script>
     <link href="{{ FEED_DOMAIN }}/{{ FEED_ALL_ATOM }}" type="application/atom+xml" rel="alternate"
           title="{{ SITENAME }} Atom Feed"/>
 </head>
@@ -44,6 +45,9 @@
                         <a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a>
                     </li>
                 {% endfor %}
+                <li>
+                    <a href="javascript:toggleDark();"><span class="glyphicon glyphicon-adjust"></span></a>
+                </li>
             </ul>
         </div>
     </div>
