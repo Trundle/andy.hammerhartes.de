@@ -22,7 +22,7 @@ mit der Hilfe von `Bootstrap`_.
 
 .. _Bootstrap: http://getbootstrap.com/
 .. _Pelican: http://getpelican.com/
-.. _schrift: https://github.com/bufferio/schrift
+.. _schrift: https://github.com/aether-space/schrift
 
 
 Was ist gleich geblieben?

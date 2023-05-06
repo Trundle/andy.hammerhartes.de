@@ -25,6 +25,6 @@ neue System übertragen. Aber nur, wenn man ein altes Paste
 öffnet. Danach werden die Daten unwiderruflich gelöscht sein.
 
 `Der Code befindet sich auf Github
-<https://github.com/bufferio/pinnwand>`_. `Wünsche, Bugs und
+<https://github.com/supakeen/pinnwand>`_. `Wünsche, Bugs und
 Anregungen bitte
-melden. <https://github.com/bufferio/pinnwand/issues/new>`_
+melden. <https://github.com/supakeen/pinnwand/issues/new>`_
